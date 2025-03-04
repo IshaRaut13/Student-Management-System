@@ -17,9 +17,15 @@ if MONGO_URI is None:
 else:
     try:
         # Connect to MongoDB with a longer timeout (e.g., 10 seconds)
+        # client = MongoClient(
+        #     MONGO_URI, serverSelectionTimeoutMS=10000
+        # )  # 10 seconds timeout
         client = MongoClient(
-            MONGO_URI, serverSelectionTimeoutMS=10000
-        )  # 10 seconds timeout
+            MONGO_URI, 
+            serverSelectionTimeoutMS=10000,  # 10 seconds timeout
+            tls=True,  # Force TLS connection
+            tlsAllowInvalidCertificates=True  # Bypass invalid certificate errors (use with caution)
+        )
         db = client.student_db
         collection = db.students
 
